@@ -25,14 +25,14 @@ public class Matematica {
     }
 
     public int multiplicar(int num) {
-        return this.num*num;
+        return this.num * num;
     }
 
-    public int getResult() {
+    public int getNum() {
         return num;
     }
 
-    public void setResult(int num) {
+    public void setNum(int num) {
         this.num = num;
     }
 

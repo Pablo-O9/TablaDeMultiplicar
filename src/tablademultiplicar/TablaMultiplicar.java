@@ -14,10 +14,14 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import static java.awt.event.KeyEvent.VK_ENTER;
+import java.awt.event.KeyListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -27,6 +31,10 @@ import javax.swing.border.EmptyBorder;
  * @author a19pabloca
  */
 public class TablaMultiplicar extends JFrame implements ActionListener {
+
+    JTextField tnum1 = new JTextField();
+    JTextField tnum2 = new JTextField();
+    JTextField tresult = new JTextField();
 
     public TablaMultiplicar() {
 
@@ -46,10 +54,8 @@ public class TablaMultiplicar extends JFrame implements ActionListener {
         JLabel num1 = new JLabel();
         JLabel num2 = new JLabel();
         JLabel result = new JLabel();
-        JTextField tnum1 = new JTextField();
-        JTextField tnum2 = new JTextField();
-        JTextField tresult = new JTextField();
-
+        
+        //Establezco los layouts
         header.setLayout(new GridLayout(3, 1));
         section.setLayout(new GridLayout(10, 3, 4, 4));
         footer.setLayout(new GridBagLayout());
@@ -58,7 +64,8 @@ public class TablaMultiplicar extends JFrame implements ActionListener {
         title.setText("Tabla de Multiplicar");
         title.setSize(200, 30);
         title.setAlignmentY(CENTER_ALIGNMENT);
-        header.setBackground(Color.getHSBColor(0.16f , 0.37f, 0.97f));
+        header.setBackground(Color.getHSBColor(0.16f, 0.37f, 0.97f));
+        //Relleno de la lista desplegable
         for (int i = 0; i < 10; i++) {
             combo.addItem(i);
         }
@@ -66,11 +73,12 @@ public class TablaMultiplicar extends JFrame implements ActionListener {
         header.add(combo, "2");
         header.setBorder(new EmptyBorder(10, 10, 0, 10));
 
+        //Le aplicamos la funcionalidada a la lista desplegable
         combo.addActionListener((e) -> {
             System.out.println("En el combo");
             Matematica multi = new Matematica(Integer.valueOf(String.valueOf(combo.getSelectedItem())));
             System.out.println(String.valueOf(combo.getSelectedItem()));
-
+            //Bucle para rellenar los botones de la derecha
             for (int i = 0; i < 10; i++) {
                 multi.multiplicar(i);
                 System.out.println(multi.multiplicar(i));
@@ -81,9 +89,8 @@ public class TablaMultiplicar extends JFrame implements ActionListener {
         //Section
         section.setBackground(Color.GRAY);
         section.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-        int x = 10;
-        for (int i = 0; i < x; i++) {
+        //Bucle para la generación de los botones donde reflejamos la tabla de multiplicar
+        for (int i = 0; i < 10; i++) {
             section.add(new JButton(Integer.toString(i)));
             section.add(new JButton(" = "));
             Boton botonResult = new Boton(i);
@@ -93,7 +100,8 @@ public class TablaMultiplicar extends JFrame implements ActionListener {
         }
 
         //footer
-        footer.setBackground(Color.getHSBColor(0.16f , 0.37f, 0.97f));
+        //Le aplicamos propiedades y le insertamos los elementos
+        footer.setBackground(Color.getHSBColor(0.16f, 0.37f, 0.97f));
         footer.setBorder(new EmptyBorder(10, 10, 10, 10));
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -140,22 +148,54 @@ public class TablaMultiplicar extends JFrame implements ActionListener {
         Boton sumar = new Boton("Sumar");
         footer.add(sumar, c);
 
-        sumar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Sumando");
-                int num1 = Integer.valueOf(tnum1.getText());
-                int num2 = Integer.valueOf(tnum2.getText());
-
-                Matematica operacion1 = new Matematica(num1);
-                tresult.setText(String.valueOf(operacion1.sumar(num2)));
-            }
-        });
-
         this.add(header, BorderLayout.NORTH);
         this.add(section, BorderLayout.CENTER);
         this.add(footer, BorderLayout.SOUTH);
 
+        //Funcionalidad de la tecla enter en textlabel2
+        tnum2.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                //Por implementar
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getExtendedKeyCode() == VK_ENTER) {
+                    sumar();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+
+        });
+
+        //Funcionalidad del boton sumar
+        sumar.addActionListener((e) -> {
+            sumar();
+        });
+
+    }
+
+    //Metodo que suma
+    public void sumar() {
+        //Empleamos un try catch para evitar posibles errores a la hora de recibir 
+        //caracteres inesperados como pudieran ser letras o simbolos o que el 
+        //usuario deje en blanco las casillas
+        try {
+            System.out.println("Sumando");
+            int num1 = Integer.valueOf(tnum1.getText());
+            int num2 = Integer.valueOf(tnum2.getText());
+
+            Matematica operacion1 = new Matematica(num1);
+            tresult.setText(String.valueOf(operacion1.sumar(num2)));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Introduce numeros enteros por favor");
+            tnum1.setText("");
+            tnum2.setText("");
+        }
     }
 
     @Override
