@@ -8,6 +8,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import static java.awt.Color.blue;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -24,6 +25,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 /**
@@ -39,7 +41,7 @@ public class TablaMultiplicar extends JFrame implements ActionListener {
     public TablaMultiplicar() {
 
         this.setBackground(blue);
-        this.setSize(400, 800);
+        this.setSize(400, 650);
 
         JPanel header = new JPanel();
         JPanel section = new JPanel();
@@ -54,7 +56,7 @@ public class TablaMultiplicar extends JFrame implements ActionListener {
         JLabel num1 = new JLabel();
         JLabel num2 = new JLabel();
         JLabel result = new JLabel();
-        
+
         //Establezco los layouts
         header.setLayout(new GridLayout(3, 1));
         section.setLayout(new GridLayout(10, 3, 4, 4));
@@ -63,7 +65,8 @@ public class TablaMultiplicar extends JFrame implements ActionListener {
         //Header
         title.setText("Tabla de Multiplicar");
         title.setSize(200, 30);
-        title.setAlignmentY(CENTER_ALIGNMENT);
+        title.setHorizontalAlignment(SwingConstants.CENTER);
+        title.setFont(new Font("", Font.BOLD, 20));
         header.setBackground(Color.getHSBColor(0.16f, 0.37f, 0.97f));
         //Relleno de la lista desplegable
         for (int i = 0; i < 10; i++) {
@@ -104,13 +107,16 @@ public class TablaMultiplicar extends JFrame implements ActionListener {
         footer.setBackground(Color.getHSBColor(0.16f, 0.37f, 0.97f));
         footer.setBorder(new EmptyBorder(10, 10, 10, 10));
         GridBagConstraints c = new GridBagConstraints();
-        c.fill = GridBagConstraints.HORIZONTAL;
+
         c.insets = new Insets(3, 3, 3, 3);
-        c.weightx = 1;
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
         c.weighty = 1;
         c.ipadx = 20;
 
         //Posicionamiento de cada elemento
+        c.fill = GridBagConstraints.CENTER;
         c.gridx = 0;
         c.gridy = 0;
         footer.add(new JLabel("Numero 1:"), c);
@@ -126,23 +132,21 @@ public class TablaMultiplicar extends JFrame implements ActionListener {
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 1;
         c.gridy = 0;
-
         footer.add(tnum1, c);
 
-        c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 1;
         c.gridy = 1;
         footer.add(tnum2, c);
 
-        c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 1;
         c.gridy = 2;
+
         footer.add(tresult, c);
 
-        c.fill = GridBagConstraints.HORIZONTAL;
         c.gridheight = 4;
-        c.gridwidth = 4;
+        c.gridwidth = 2;
         c.ipady = 50;
+        c.weightx = 1;
         c.gridx = 2;
         c.gridy = 0;
         Boton sumar = new Boton("Sumar");
